@@ -50,4 +50,6 @@ remote:      https://github.com/DKBurnsBresMed/heemod/pull/new/master[K
 remote: 
 To https://github.com/DKBurnsBresMed/heemod.git
  * [new branch]      master -> master
+]0;/home/darren/Documents/R projects/local repos/heemod]0;darren@ThinkPad: ~/Documents/R projects/local repos/heemod[01;32mdarren@ThinkPad[00m:[01;34m~/Documents/R projects/local repos/heemod[00m$ git commit 'Setting up the project,, designed to provide basic training in heemod'
+error: pathspec 'Setting up the project, designed to provide basic training in heemod' did not match any file(s) known to git.
 ]0;/home/darren/Documents/R projects/local repos/heemod]0;darren@ThinkPad: ~/Documents/R projects/local repos/heemod[01;32mdarren@ThinkPad[00m:[01;34m~/Documents/R projects/local repos/heemod[00m$ 
