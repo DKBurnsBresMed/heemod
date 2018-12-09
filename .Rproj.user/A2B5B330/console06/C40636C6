@@ -1,0 +1,19 @@
+]0;/home/darren/Documents/R projects/local repos/heemod]0;darren@ThinkPad: ~/Documents/R projects/local repos/heemod[01;32mdarren@ThinkPad[00m:[01;34m~/Documents/R projects/local repos/heemod[00m$ git init
+Initialised empty Git repository in /home/darren/Documents/R projects/local repos/heemod/.git/
+]0;/home/darren/Documents/R projects/local repos/heemod]0;darren@ThinkPad: ~/Documents/R projects/local repos/heemod[01;32mdarren@ThinkPad[00m:[01;34m~/Documents/R projects/local repos/heemod[00m$ git config --global user.name "DKBurnsBresmed"
+]0;/home/darren/Documents/R projects/local repos/heemod]0;darren@ThinkPad: ~/Documents/R projects/local repos/heemod[01;32mdarren@ThinkPad[00m:[01;34m~/Documents/R projects/local repos/heemod[00m$ dig to n[K[K[K[K[K[K[K[Kgit config --global user.email "dburns@bresmed.com"
+]0;/home/darren/Documents/R projects/local repos/heemod]0;darren@ThinkPad: ~/Documents/R projects/local repos/heemod[01;32mdarren@ThinkPad[00m:[01;34m~/Documents/R projects/local repos/heemod[00m$ git add [K[K[K[Kremode[K[Kte add https://github.com/DKBurnsBresMed/heemod.git
+usage: git remote add [<options>] <name> <url>
+
+    -f, --fetch           fetch the remote branches
+    --tags                import all tags and associated objects when fetching
+                          or do not fetch any tag at all (--no-tags)
+    -t, --track <branch>  branch(es) to track
+    -m, --master <branch>
+                          master branch
+    --mirror[=<push|fetch>]
+                          set up remote as a mirror to push to or fetch from
+
+]0;/home/darren/Documents/R projects/local repos/heemod]0;darren@ThinkPad: ~/Documents/R projects/local repos/heemod[01;32mdarren@ThinkPad[00m:[01;34m~/Documents/R projects/local repos/heemod[00m$ git push origin https://github.com/DKBurnsBresMed/heemod.git
+fatal: remote part of refspec is not a valid name in https://github.com/DKBurnsBresMed/heemod.git
+]0;/home/darren/Documents/R projects/local repos/heemod]0;darren@ThinkPad: ~/Documents/R projects/local repos/heemod[01;32mdarren@ThinkPad[00m:[01;34m~/Documents/R projects/local repos/heemod[00m$ f[Kgit add. [K[K .
