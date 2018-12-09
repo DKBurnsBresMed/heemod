@@ -2,22 +2,22 @@
     "collab_server" : "",
     "contents" : "",
     "created" : 1544379522362.000,
-    "dirty" : true,
+    "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "",
-    "hash" : "0",
+    "hash" : "1053238089",
     "id" : "F4970C12",
-    "lastKnownWriteTime" : 1544379534,
-    "last_content_update" : 1544379727135,
+    "lastKnownWriteTime" : 1544383685,
+    "last_content_update" : 1544383685783,
     "path" : "~/Documents/R projects/local repos/heemod/learning heemod.R",
     "project_path" : "learning heemod.R",
     "properties" : {
-        "cursorPosition" : "2,0",
+        "cursorPosition" : "8,0",
         "scrollLine" : "0",
         "tempName" : "Untitled1"
     },
     "relative_order" : 1,
     "source_on_save" : false,
     "source_window" : "",
-    "type" : "r_source"
+    "type" : "r_markdown"
 }

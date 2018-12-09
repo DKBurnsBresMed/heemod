@@ -17,3 +17,37 @@ usage: git remote add [<options>] <name> <url>
 ]0;/home/darren/Documents/R projects/local repos/heemod]0;darren@ThinkPad: ~/Documents/R projects/local repos/heemod[01;32mdarren@ThinkPad[00m:[01;34m~/Documents/R projects/local repos/heemod[00m$ git push origin https://github.com/DKBurnsBresMed/heemod.git
 fatal: remote part of refspec is not a valid name in https://github.com/DKBurnsBresMed/heemod.git
 ]0;/home/darren/Documents/R projects/local repos/heemod]0;darren@ThinkPad: ~/Documents/R projects/local repos/heemod[01;32mdarren@ThinkPad[00m:[01;34m~/Documents/R projects/local repos/heemod[00m$ f[Kgit add. [K[K .
+]0;/home/darren/Documents/R projects/local repos/heemod]0;darren@ThinkPad: ~/Documents/R projects/local repos/heemod[01;32mdarren@ThinkPad[00m:[01;34m~/Documents/R projects/local repos/heemod[00m$ git commit -m "first commit"
+[master (root-commit) c8b1b8a] first commit
+ 12 files changed, 163 insertions(+)
+ create mode 100644 .Rproj.user/A2B5B330/console06/C40636C6
+ create mode 100644 .Rproj.user/A2B5B330/console06/C40636C6.env
+ create mode 100644 .Rproj.user/A2B5B330/console06/INDEX001
+ create mode 100644 .Rproj.user/A2B5B330/sources/prop/BE0A2DA3
+ create mode 100644 .Rproj.user/A2B5B330/sources/prop/INDEX
+ create mode 100644 .Rproj.user/A2B5B330/sources/s-9E2E2FA5/F4970C12
+ create mode 100644 .Rproj.user/A2B5B330/sources/s-9E2E2FA5/F4970C12-contents
+ create mode 100644 .Rproj.user/A2B5B330/sources/s-9E2E2FA5/lock_file
+ create mode 100644 .Rproj.user/shared/notebooks/patch-chunk-names
+ create mode 100644 .Rproj.user/shared/notebooks/paths
+ create mode 100644 heemod.Rproj
+ create mode 100644 learning heemod.R
+]0;/home/darren/Documents/R projects/local repos/heemod]0;darren@ThinkPad: ~/Documents/R projects/local repos/heemod[01;32mdarren@ThinkPad[00m:[01;34m~/Documents/R projects/local repos/heemod[00m$ git remote add origin https://github.com/DKBurnsBresMed/heemodd.git
+]0;/home/darren/Documents/R projects/local repos/heemod]0;darren@ThinkPad: ~/Documents/R projects/local repos/heemod[01;32mdarren@ThinkPad[00m:[01;34m~/Documents/R projects/local repos/heemod[00m$ ge[Kit remote -bv[K[Kv
+origin	https://github.com/DKBurnsBresMed/heemod.git (fetch)
+origin	https://github.com/DKBurnsBresMed/heemod.git (push)
+]0;/home/darren/Documents/R projects/local repos/heemod]0;darren@ThinkPad: ~/Documents/R projects/local repos/heemod[01;32mdarren@ThinkPad[00m:[01;34m~/Documents/R projects/local repos/heemod[00m$ git push origin master
+Username for 'https://github.com': DKBurnsBresmed
+Password for 'https://DKBurnsBresmed@github.com': 
+Counting objects: 21, done.
+Delta compression using up to 4 threads.
+Compressing objects:   5% (1/17)   Compressing objects:  11% (2/17)   Compressing objects:  17% (3/17)   Compressing objects:  23% (4/17)   Compressing objects:  29% (5/17)   Compressing objects:  35% (6/17)   Compressing objects:  41% (7/17)   Compressing objects:  47% (8/17)   Compressing objects:  52% (9/17)   Compressing objects:  58% (10/17)   Compressing objects:  64% (11/17)   Compressing objects:  70% (12/17)   Compressing objects:  76% (13/17)   Compressing objects:  82% (14/17)   Compressing objects:  88% (15/17)   Compressing objects:  94% (16/17)   Compressing objects: 100% (17/17)   Compressing objects: 100% (17/17), done.
+Writing objects:   4% (1/21)   Writing objects:   9% (2/21)   Writing objects:  14% (3/21)   Writing objects:  19% (4/21)   Writing objects:  23% (5/21)   Writing objects:  28% (6/21)   Writing objects:  33% (7/21)   Writing objects:  38% (8/21)   Writing objects:  42% (9/21)   Writing objects:  47% (10/21)   Writing objects:  52% (11/21)   Writing objects:  57% (12/21)   Writing objects:  61% (13/21)   Writing objects:  66% (14/21)   Writing objects:  71% (15/21)   Writing objects:  76% (16/21)   Writing objects:  80% (17/21)   Writing objects:  85% (18/21)   Writing objects:  90% (19/21)   Writing objects:  95% (20/21)   Writing objects: 100% (21/21)   Writing objects: 100% (21/21), 4.57 KiB | 1.14 MiB/s, done.
+Total 21 (delta 0), reused 0 (delta 0)
+remote: 
+remote: Create a pull request for 'master' on GitHub by visiting:[K
+remote:      https://github.com/DKBurnsBresMed/heemod/pull/new/master[K
+remote: 
+To https://github.com/DKBurnsBresMed/heemod.git
+ * [new branch]      master -> master
+]0;/home/darren/Documents/R projects/local repos/heemod]0;darren@ThinkPad: ~/Documents/R projects/local repos/heemod[01;32mdarren@ThinkPad[00m:[01;34m~/Documents/R projects/local repos/heemod[00m$ 

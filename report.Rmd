@@ -1,0 +1,58 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+	echo = FALSE,
+	message = FALSE,
+	warning = FALSE
+)
+```
+
+
+
+```{r}
+dbloader <- function(packs) {
+  system.time(
+    if (length(setdiff(packs, rownames(installed.packages()))) > 0) {
+      print("you need the following packages to run this script")
+      print(setdiff(packs, rownames(installed.packages())))
+      print("Installing them now...")
+      install.packages(setdiff(packs, rownames(installed.packages())))
+      print("Now loading libraries...")
+      sapply(packs, require, character.only = TRUE)
+    } else {
+      print("All packages are installed already")
+      print("Loading the specified libraries...")
+      sapply(packs, require, character.only = TRUE)
+    }
+  )
+}
+
+dbloader(c("heemod","simmer","tidyverse"))
+```
+
+# Introduction
+
+This document is designed to go through the steps of setting up a simple 3 state partitioned survival CE model, using the heemod package. There are 3 primary aspects to consider. These are:  
+
+1. Survival in each state
+2. Cost of being in each state
+3. Utility associated with each state
+
+However, there are also other factors which can complicate the capturing of these 3 factors. Some examples include:
+
+ - Costs changing over time within a state (e.g. Treatment duration limits, dosing schedules)
+ - Time dependent utilities
+ - Efficacy of an intervention depending on time since baseline
+ - Stopping rules
+
+In this first part, we will focus entirely on a very simple case
+
+```{r transition probabilities}
+
+```
+
