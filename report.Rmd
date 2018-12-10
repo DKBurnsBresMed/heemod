@@ -6,7 +6,7 @@ output: html_notebook
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(
-	echo = FALSE,
+	echo = TRUE,
 	message = FALSE,
 	warning = FALSE
 )
@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 
 
 
-```{r}
+```{r user-functions}
 dbloader <- function(packs) {
   system.time(
     if (length(setdiff(packs, rownames(installed.packages()))) > 0) {
@@ -50,9 +50,76 @@ However, there are also other factors which can complicate the capturing of thes
  - Efficacy of an intervention depending on time since baseline
  - Stopping rules
 
-In this first part, we will focus entirely on a very simple case
+In this first part, we will focus entirely on a very simple case, a 3-state model with constant hazards (i.e. exponential assumption), meaning that the transitions don't change over time.  
 
-```{r transition probabilities}
+You will see that setting up the parameters sheet in this way, and within an rmarkdown document, has some advantages. It allows us to explain/annotate every parameter in the model one by one all in the same place. We can also use the text areas to link to bits of the code, so that the numbers we reference in the substantive text are linked to the data and results!
+
+```{r Parameters sheet, echo=TRUE, message=FALSE, warning=FALSE}
+#One of the best things about heemod is the ability to define an object containing all the parameters in the model, which then makes it much easier to keep track of the information being passed through the model
+
+parameters_sheet <- define_parameters(
+  
+  # * control arm probabilities ------------------------------
+  # from PFS
+  t11_con = 0.9,
+  t12_con = 0.05,
+  t13_con = 0.05,
+  #From PPS
+  t21_con = 0,
+  t22_con = 0.8,
+  t23_con = 0.2,
+  #from Dead
+  t31_con = 0,
+  t32_con = 0,
+  t33_con = 1,
+  
+  # * Intervention arm probabilities ------------------------------
+  # from PFS (This hypothetical intervention simply slows progression and reduces pre-progression death!)
+  t11_int = 0.95,
+  t12_int = 0.025,
+  t13_int = 0.025,
+  #From PPS
+  t21_int = 0,
+  t22_int = 0.8,
+  t23_int = 0.2,
+  #from Dead
+  t31_int = 0,
+  t32_int = 0,
+  t33_int = 1,
+  
+  # * Current treatement flags  -------------------------------------------
+  # This can be used to apply logic for which treatment the patient is currently on.
+  #   This can help with applying subsequent treatment logic
+  arm_cont = "On CONTROL treatment",
+  arm_int  = "On INTERVENTION treatment",
+  
+  # * Costs      -------------------------------------------
+  # Control drug is for life, one dose per cycle costing 50
+  DrugCost_cont = 50,
+  # New drug is given for maximum of 20 cycles, and only every 2 weeks, costing 150 each time:
+  #   This part is very analogous to excel, ifelse works in exactly the same way!
+  DrugCost_int  = ifelse(
+    test = markov_cycle <= 20,
+    yes = ifelse(
+      test = markov_cycle %% 2 == 0,
+      yes = 150,
+      no = 0),
+    no = 0
+    ),
+  #Resource use costs in each cycle, per cycle
+  RU_PFS  = 10,
+  RU_PPS  = 30,
+  RU_Dead = 0,
+  
+  # * Utilities  -------------------------------------------
+  #some standard state-based utilities
+  U_PFS  = 0.95,
+  U_PPS  = 0.55,
+  U_Dead = 0
+  
+)
+
 
 ```
 
+You can call a value from the parameters sheet as an "expression". This allows the package to treat anything as potentially a ball of logic, or just a number (similarly to excel). For instacne, the comparator cycle cost of £`r parameters_sheet$DrugCost_cont$expr` per cycle can be pulled form the code above using the following code: \` r parameters_sheet \$ DrugCost_cont \$ expr \` in your text (without the spaces around the dollar signs!). Potentially, the parameters sheet can be derived from an external file, using the openxlsx package (which is much faster than the XLConnect package, due to the lack of a java dependency). This means that a separate workbook containing the basic (usually CiC) input information in excel can be kept safe.
