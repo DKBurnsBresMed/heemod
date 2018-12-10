@@ -1,6 +1,8 @@
 ---
-title: "R Notebook"
-output: html_notebook
+title: "An introduction to heemod, a simple 3-state model"
+output: 
+  word_document:
+    reference_docx: TEMPLATE.docx
 ---
 
 
@@ -122,4 +124,4 @@ parameters_sheet <- define_parameters(
 
 ```
 
-You can call a value from the parameters sheet as an "expression". This allows the package to treat anything as potentially a ball of logic, or just a number (similarly to excel). For instacne, the comparator cycle cost of £`r parameters_sheet$DrugCost_cont$expr` per cycle can be pulled form the code above using the following code: \` r parameters_sheet \$ DrugCost_cont \$ expr \` in your text (without the spaces around the dollar signs!). Potentially, the parameters sheet can be derived from an external file, using the openxlsx package (which is much faster than the XLConnect package, due to the lack of a java dependency). This means that a separate workbook containing the basic (usually CiC) input information in excel can be kept safe.
+You can call a value from the parameters sheet as an "expression". This allows the package to treat anything as potentially a ball of logic, or just a number (similarly to excel). For instacne, the comparator cycle cost of £`r parameters_sheet$DrugCost_cont$expr` per cycle can be pulled form the code above this piece of text (See the source code: report.Rmd). Potentially, the parameters sheet can be derived from an external file, using the openxlsx package (which is much faster than the XLConnect package, due to the lack of a java dependency). This means that a separate workbook containing the basic (usually CiC) input information in excel can be kept safe.
