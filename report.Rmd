@@ -1,6 +1,7 @@
 ---
 title: "An introduction to heemod, a simple 3-state model"
-output: 
+output:
+  pdf_document: default
   word_document:
     reference_docx: TEMPLATE.docx
 ---
@@ -62,7 +63,7 @@ You will see that setting up the parameters sheet in this way, and within an rma
 
 ```{r Parameters sheet, echo=TRUE, message=FALSE, warning=FALSE}
 #One of the best things about heemod is the ability to define an object containing all the parameters in the model, which then makes it much easier to keep track of the information being passed through the model
-
+# Another thing to note here is that this information could be extracted from an excel book using the openslsx package, which can extract directly from named ranges!
 parameters_sheet <- define_parameters(
   
   # * functional parameters ----------------------------------
@@ -77,6 +78,8 @@ parameters_sheet <- define_parameters(
   
   # * control arm probabilities ------------------------------
   #TODO: Make these time dependant - can they be linked to markov_cycle to allow for MSM?
+  #TODO: confirm how to do this: I believe that the results from flexsurvreg can be used in the same way
+  #       That we would use them in excel. just link them to markov_cycle (be careful of time unit, recommend weeks!)
   # from PFS
   t11_con = 0.9,
   t12_con = 0.05,
@@ -143,7 +146,7 @@ You can call a value from the parameters sheet as an "expression". This allows t
 
 ## Markov state transitions
 
-Now that we have our parameters sheet we can begin laying out the model. The underlying engine is the disease model, which follows a Markovian or semi-Markovian design, depending on how complicated the disease context is. As in this case we are taking the simplest form (a basic markov model), we can lay it out quite easily, and in a way which looks familiar
+Now that we have our parameters sheet we can begin to emplement the model. The underlying engine is the disease model, which follows a Markovian or semi-Markovian design, depending on how complicated the disease context is. In this case we are taking the simplest approach of transition probabilities which do not change over time. However, even if a more complicated logic surrounds the transistions, the below should remain the same. For instance, if t11_con (The control arm transition to go from state_A to stata_A, i.e. stay in the same state) were to follow some logic, that logic would be applied in parameters_sheet above, through linking the value to the variable markov_cycle (e.g. ifelse(markov_cycle<3,0.9,0.8) would allow the transition probability to change in cycle 3). Note that there will be an error if the probabilities do not sum to 1 as they should.  
 
 ```{r Transition matrices}
 #define the transition probability matrix for the comparator
@@ -181,7 +184,8 @@ Here we can define the healthstates, which can contain logic, or can contain log
 Obviously, this is a very simple set up. However, logic can be applied in here to allow for time dependencies etc (using markov_cycle)
 
 ## Defining the treatment strategies
-Now that the transitions are defined, we need to define what the alternative treatment strategies are. This is done using define_strategy.
+Now that the transitions are defined, we need to define what the alternative treatment strategies are. This is done using define_strategy. Logic can also be applied here, but please keep it to the treatment-arm specific factors. This way, it is clear that the below code is only to set the treatment strategies!
+
 
 ```{r defining treatment arms}
 #control
@@ -230,7 +234,7 @@ MODEL <- run_model(
   init = c(1,0,0),
   control_arm,
   intervention_arm,
-  cycles = 150,
+  cycles = 500,
   cost = cost,
   effect = utility
 )
