@@ -2,6 +2,8 @@
 title: "An introduction to heemod, a simple 3-state model"
 output:
   pdf_document: default
+  html_document:
+    df_print: paged
   word_document:
     reference_docx: TEMPLATE.docx
 ---
@@ -234,7 +236,7 @@ MODEL <- run_model(
   init = c(1,0,0),
   control_arm,
   intervention_arm,
-  cycles = 500,
+  cycles = 200,
   cost = cost,
   effect = utility
 )
