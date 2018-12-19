@@ -1,5 +1,5 @@
 ---
-title: "An introduction to heemod, a simple 3-state model. Session 1"
+title: "An introduction to heemod, a simple 3-state model. Session 2 - time dependency"
 output:
   word_document:
     reference_docx: TEMPLATE.docx
@@ -45,25 +45,12 @@ dbloader(c("heemod","simmer","tidyverse"))
 
 # Introduction
 
-This document is designed to go through the steps of setting up a simple 3 state partitioned survival CE model, using the heemod package. There are 3 primary aspects to consider. These are:  
-
-1. Survival in each state
-2. Cost of being in each state
-3. Utility associated with each state
-
-However, there are also other factors which can complicate the capturing of these 3 factors. Some examples include:
-
- - Costs changing over time within a state (e.g. Treatment duration limits, dosing schedules)
- - Time dependent utilities
- - Efficacy of an intervention depending on time since baseline
- - Stopping rules
-
-In this first part, we will focus entirely on a very simple case, a 3-state model with constant hazards (i.e. exponential assumption), meaning that the transitions don't change over time.  
+In this next step, we're going to work from the same fundemental model, and add a bit of complication to it, via linking some parameters to the in-built parameter markov_cycle. This parameter makes the code much more analagous to Excel, and allows you to essentially "drag down" a formula (just by linking it to cycle number)
 
 # Model 
 ## Parameters
 
-You will see that setting up the parameters sheet in this way, and within an rmarkdown document, has some advantages. It allows us to explain/annotate every parameter in the model one by one all in the same place. We can also use the text areas to link to bits of the code, so that the numbers we reference in the substantive text are linked to the data and results!
+As before, we set up a parameters sheet, but take a look at the transition probabilities. This time I have added in a very simple time dependency. This approach of using ifelse and linking it to markov_cycle allows quite a lot of flexibility. It is even possible to link these transition probabilities to an object estimated in **flexsurvreg**, meaning that heemod can very easily incorporate a multi-state model (MSM).
 
 ```{r Parameters sheet, echo=TRUE, message=FALSE, warning=FALSE}
 #One of the best things about heemod is the ability to define an object containing all the parameters in the model, which then makes it much easier to keep track of the information being passed through the model
@@ -85,13 +72,13 @@ parameters_sheet <- define_parameters(
   #TODO: confirm how to do this: I believe that the results from flexsurvreg can be used in the same way
   #       That we would use them in excel. just link them to markov_cycle (be careful of time unit, recommend weeks!)
   # from PFS
-  t11_con = 0.9,
-  t12_con = 0.05,
-  t13_con = 0.05,
+  t11_con = ifelse(markov_cycle < 100, 0.90, 0.80),
+  t12_con = ifelse(markov_cycle < 100, 0.05, 0.05),
+  t13_con = ifelse(markov_cycle < 100, 0.05, 0.15),
   #From PPS
-  t21_con = 0,
-  t22_con = 0.8,
-  t23_con = 0.2,
+  t21_con = ifelse(markov_cycle < 50, 0.00, 0.15),
+  t22_con = ifelse(markov_cycle < 50, 0.80, 0.70),
+  t23_con = ifelse(markov_cycle < 50, 0.20, 0.15),
   #from Dead
   t31_con = 0,
   t32_con = 0,
@@ -99,13 +86,13 @@ parameters_sheet <- define_parameters(
   
   # * Intervention arm probabilities ------------------------------
   # from PFS (This hypothetical intervention simply slows progression and reduces pre-progression death!)
-  t11_int = 0.95,
-  t12_int = 0.025,
-  t13_int = 0.025,
+  t11_int = ifelse(markov_cycle < 100, 0.950, 0.990),
+  t12_int = ifelse(markov_cycle < 100, 0.025, 0.005),
+  t13_int = ifelse(markov_cycle < 100, 0.025, 0.005),
   #From PPS
-  t21_int = 0,
-  t22_int = 0.8,
-  t23_int = 0.2,
+  t21_int = ifelse(markov_cycle < 50, 0.00, 0.00),
+  t22_int = ifelse(markov_cycle < 50, 0.80, 0.90),
+  t23_int = ifelse(markov_cycle < 50, 0.20, 0.10),
   #from Dead
   t31_int = 0,
   t32_int = 0,
