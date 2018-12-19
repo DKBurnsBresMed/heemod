@@ -52,4 +52,36 @@ To https://github.com/DKBurnsBresMed/heemod.git
  * [new branch]      master -> master
 ]0;/home/darren/Documents/R projects/local repos/heemod]0;darren@ThinkPad: ~/Documents/R projects/local repos/heemod[01;32mdarren@ThinkPad[00m:[01;34m~/Documents/R projects/local repos/heemod[00m$ git commit 'Setting up the project,, designed to provide basic training in heemod'
 error: pathspec 'Setting up the project, designed to provide basic training in heemod' did not match any file(s) known to git.
+]0;/home/darren/Documents/R projects/local repos/heemod]0;darren@ThinkPad: ~/Documents/R projects/local repos/heemod[01;32mdarren@ThinkPad[00m:[01;34m~/Documents/R projects/local repos/heemod[00m$ git pull origin master
+From https://github.com/DKBurnsBresMed/heemod
+ * branch            master     -> FETCH_HEAD
+Updating 48ed05c..c6a9271
+Fast-forward
+ .Rproj.user/shared/notebooks/paths |   3 [32m+[m[31m-[m
+ TEMPLATE.docx                      | Bin [31m0[m -> [32m13843[m bytes
+ report.Rmd                         |  81 [32m+++++++++++++++++++++++++++++++++++++++++++++++++[m[31m----[m
+ 3 files changed, 76 insertions(+), 8 deletions(-)
+ create mode 100644 TEMPLATE.docx
+]0;/home/darren/Documents/R projects/local repos/heemod]0;darren@ThinkPad: ~/Documents/R projects/local repos/heemod[01;32mdarren@ThinkPad[00m:[01;34m~/Documents/R projects/local repos/heemod[00m$ git pull origin master
+remote: Enumerating objects: 28, done.[K
+remote: Counting objects:   3% (1/28)   [Kremote: Counting objects:   7% (2/28)   [Kremote: Counting objects:  10% (3/28)   [Kremote: Counting objects:  14% (4/28)   [Kremote: Counting objects:  17% (5/28)   [Kremote: Counting objects:  21% (6/28)   [Kremote: Counting objects:  25% (7/28)   [Kremote: Counting objects:  28% (8/28)   [Kremote: Counting objects:  32% (9/28)   [Kremote: Counting objects:  35% (10/28)   [Kremote: Counting objects:  39% (11/28)   [Kremote: Counting objects:  42% (12/28)   [Kremote: Counting objects:  46% (13/28)   [Kremote: Counting objects:  50% (14/28)   [Kremote: Counting objects:  53% (15/28)   [Kremote: Counting objects:  57% (16/28)   [Kremote: Counting objects:  60% (17/28)   [Kremote: Counting objects:  64% (18/28)   [Kremote: Counting objects:  67% (19/28)   [Kremote: Counting objects:  71% (20/28)   [Kremote: Counting objects:  75% (21/28)   [Kremote: Counting objects:  78% (22/28)   [Kremote: Counting objects:  82% (23/28)   [Kremote: Counting objects:  85% (24/28)   [Kremote: Counting objects:  89% (25/28)   [Kremote: Counting objects:  92% (26/28)   [Kremote: Counting objects:  96% (27/28)   [Kremote: Counting objects: 100% (28/28)   [Kremote: Counting objects: 100% (28/28), done.[K
+remote: Compressing objects:   6% (1/16)   [Kremote: Compressing objects:  12% (2/16)   [Kremote: Compressing objects:  18% (3/16)   [Kremote: Compressing objects:  25% (4/16)   [Kremote: Compressing objects:  31% (5/16)   [Kremote: Compressing objects:  37% (6/16)   [Kremote: Compressing objects:  43% (7/16)   [Kremote: Compressing objects:  50% (8/16)   [Kremote: Compressing objects:  56% (9/16)   [Kremote: Compressing objects:  62% (10/16)   [Kremote: Compressing objects:  68% (11/16)   [Kremote: Compressing objects:  75% (12/16)   [Kremote: Compressing objects:  81% (13/16)   [Kremote: Compressing objects:  87% (14/16)   [Kremote: Compressing objects:  93% (15/16)   [Kremote: Compressing objects: 100% (16/16)   [Kremote: Compressing objects: 100% (16/16), done.[K
+Unpacking objects:   4% (1/21)   Unpacking objects:   9% (2/21)   Unpacking objects:  14% (3/21)   remote: Total 21 (delta 9), reused 16 (delta 4), pack-reused 0[K
+Unpacking objects:  19% (4/21)   Unpacking objects:  23% (5/21)   Unpacking objects:  28% (6/21)   Unpacking objects:  33% (7/21)   Unpacking objects:  38% (8/21)   Unpacking objects:  42% (9/21)   Unpacking objects:  47% (10/21)   Unpacking objects:  52% (11/21)   Unpacking objects:  57% (12/21)   Unpacking objects:  61% (13/21)   Unpacking objects:  66% (14/21)   Unpacking objects:  71% (15/21)   Unpacking objects:  76% (16/21)   Unpacking objects:  80% (17/21)   Unpacking objects:  85% (18/21)   Unpacking objects:  90% (19/21)   Unpacking objects:  95% (20/21)   Unpacking objects: 100% (21/21)   Unpacking objects: 100% (21/21), done.
+From https://github.com/DKBurnsBresMed/heemod
+ * branch            master     -> FETCH_HEAD
+   c6a9271..39ed7ad  master     -> origin/master
+Updating c6a9271..39ed7ad
+error: Your local changes to the following files would be overwritten by merge:
+	.Rproj.user/shared/notebooks/paths
+Please commit your changes or stash them before you merge.
+Aborting
+]0;/home/darren/Documents/R projects/local repos/heemod]0;darren@ThinkPad: ~/Documents/R projects/local repos/heemod[01;32mdarren@ThinkPad[00m:[01;34m~/Documents/R projects/local repos/heemod[00m$ git pull origin master
+From https://github.com/DKBurnsBresMed/heemod
+ * branch            master     -> FETCH_HEAD
+Updating c6a9271..39ed7ad
+error: Your local changes to the following files would be overwritten by merge:
+	.Rproj.user/shared/notebooks/paths
+Please commit your changes or stash them before you merge.
+Aborting
 ]0;/home/darren/Documents/R projects/local repos/heemod]0;darren@ThinkPad: ~/Documents/R projects/local repos/heemod[01;32mdarren@ThinkPad[00m:[01;34m~/Documents/R projects/local repos/heemod[00m$ 
