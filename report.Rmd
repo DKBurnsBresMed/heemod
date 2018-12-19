@@ -1,8 +1,13 @@
 ---
 title: "An introduction to heemod, a simple 3-state model"
-output: 
+output:
+  pdf_document: 
+  html_document:
+    df_print: paged
   word_document:
     reference_docx: TEMPLATE.docx
+fontsize: "10pt"
+geometry: "left=0.5in,right=0.5in"
 ---
 
 
@@ -17,6 +22,7 @@ knitr::opts_chunk$set(
 
 
 ```{r user-functions}
+rm(list=ls())
 dbloader <- function(packs) {
   system.time(
     if (length(setdiff(packs, rownames(installed.packages()))) > 0) {
@@ -54,14 +60,30 @@ However, there are also other factors which can complicate the capturing of thes
 
 In this first part, we will focus entirely on a very simple case, a 3-state model with constant hazards (i.e. exponential assumption), meaning that the transitions don't change over time.  
 
+# Model 
+## Parameters
+
 You will see that setting up the parameters sheet in this way, and within an rmarkdown document, has some advantages. It allows us to explain/annotate every parameter in the model one by one all in the same place. We can also use the text areas to link to bits of the code, so that the numbers we reference in the substantive text are linked to the data and results!
 
 ```{r Parameters sheet, echo=TRUE, message=FALSE, warning=FALSE}
 #One of the best things about heemod is the ability to define an object containing all the parameters in the model, which then makes it much easier to keep track of the information being passed through the model
-
+# Another thing to note here is that this information could be extracted from an excel book using the openslsx package, which can extract directly from named ranges!
 parameters_sheet <- define_parameters(
   
+  # * functional parameters ----------------------------------
+  #for any factors which need to be linked to cycle (1-month cycle length)
+  year = floor(markov_cycle/12),
+  
+  # * demographics -------------------------------------------
+  # Just age and sex
+  age_start   = 60,
+  age         = age_start + year,
+  prop_female = 0.5,
+  
   # * control arm probabilities ------------------------------
+  #TODO: Make these time dependant - can they be linked to markov_cycle to allow for MSM?
+  #TODO: confirm how to do this: I believe that the results from flexsurvreg can be used in the same way
+  #       That we would use them in excel. just link them to markov_cycle (be careful of time unit, recommend weeks!)
   # from PFS
   t11_con = 0.9,
   t12_con = 0.05,
@@ -124,4 +146,134 @@ parameters_sheet <- define_parameters(
 
 ```
 
-You can call a value from the parameters sheet as an "expression". This allows the package to treat anything as potentially a ball of logic, or just a number (similarly to excel). For instacne, the comparator cycle cost of £`r parameters_sheet$DrugCost_cont$expr` per cycle can be pulled form the code above this piece of text (See the source code: report.Rmd). Potentially, the parameters sheet can be derived from an external file, using the openxlsx package (which is much faster than the XLConnect package, due to the lack of a java dependency). This means that a separate workbook containing the basic (usually CiC) input information in excel can be kept safe.
+You can call a value from the parameters sheet as an "expression". This allows the package to treat anything as potentially a ball of logic, or just a number (similarly to excel). For instacne, the comparator cycle cost of £`r parameters_sheet$DrugCost_cont$expr` per cycle can be pulled form the code above this piece of text (See the source code: report.Rmd). Potentially, the parameters sheet can be derived from an external file, using the openxlsx package (which is much faster than the XLConnect package, due to the lack of a java dependency). This means that a separate workbook containing the basic (usually CiC) underlying input information in excel can be kept safe. It also makes redacting a model trivial!  
+
+## Markov state transitions
+
+Now that we have our parameters sheet we can begin to emplement the model. The underlying engine is the disease model, which follows a Markovian or semi-Markovian design, depending on how complicated the disease context is. In this case we are taking the simplest approach of transition probabilities which do not change over time. However, even if a more complicated logic surrounds the transistions, the below should remain the same. For instance, if t11_con (The control arm transition to go from state_A to stata_A, i.e. stay in the same state) were to follow some logic, that logic would be applied in parameters_sheet above, through linking the value to the variable markov_cycle (e.g. ifelse(markov_cycle<3,0.9,0.8) would allow the transition probability to change in cycle 3). Note that there will be an error if the probabilities do not sum to 1 as they should.  
+
+```{r Transition matrices}
+#define the transition probability matrix for the comparator
+trans_cont <- define_transition(
+  state_names = c("state_A","state_B","state_C"),
+  t11_con, t12_con, t13_con,
+  t21_con, t22_con, t23_con,
+  t31_con, t32_con, t33_con
+)
+
+#define the transition probability matrix for the intervention
+trans_int <- define_transition(
+  state_names = c("state_A","state_B","state_C"),
+  t11_int, t12_int, t13_int,
+  t21_int, t22_int, t23_int,
+  t31_int, t32_int, t33_int
+)
+
+trans_cont
+
+trans_int
+
+```
+
+Now that the transition probabilities are defined, we can move onto defining the healthstates.
+
+## Health state definitions
+
+Here we can define the healthstates, which can contain logic, or can contain logic passed on from the parameters sheet (see *DrugCost_int*):
+
+ - State A (PFS) has resource use costs only, and utility associated with PFS (drug costs added after)
+ - State B (PPS) has resource use costs only, and utility associated with PPS
+ - State C (Dead) has 0 cost and 0 utility
+
+Obviously, this is a very simple set up. However, logic can be applied in here to allow for time dependencies etc (using markov_cycle)
+
+## Defining the treatment strategies
+Now that the transitions are defined, we need to define what the alternative treatment strategies are. This is done using define_strategy. Logic can also be applied here, but please keep it to the treatment-arm specific factors. This way, it is clear that the below code is only to set the treatment strategies!
+
+
+```{r defining treatment arms}
+#control
+control_arm <- define_strategy(
+  transition = trans_cont,
+  state_A = define_state(
+    cost    = DrugCost_cont + RU_PFS,
+    utility = U_PFS
+  ),
+  state_B = define_state(
+    cost    = RU_PPS,
+    utility = U_PPS
+  ),
+  state_C = define_state(
+    cost = 0,
+    utility = 0
+  )
+)
+#intervention
+intervention_arm <- define_strategy(
+  transition = trans_int,
+  state_A = define_state(
+    cost    = DrugCost_int + RU_PFS,
+    utility = U_PFS
+  ),
+  state_B = define_state(
+    cost    = RU_PPS,
+    utility = U_PPS
+  ),
+  state_C = define_state(
+    cost = 0,
+    utility = 0
+  )
+)
+
+```
+
+
+## Running the model
+
+That's it! we have set up the transitions, and the states. Now all that is left is to run the model. We need to give it the parameters sheet, the strategies, the number of cycles etc.
+
+```{r Running the model}
+MODEL <- run_model(
+  parameters = parameters_sheet,
+  init = c(1,0,0),
+  control_arm,
+  intervention_arm,
+  cycles = 200,
+  cost = cost,
+  effect = utility
+)
+```
+
+To take the markov trace and turn it into a partitioned survival graph:
+
+```{r patient flow}
+patient_flow <- get_counts(MODEL)
+patient_flow[which(patient_flow$state_names == "state_C"),"count"] <- 1-patient_flow[which(patient_flow$state_names == "state_C"),"count"]
+patient_flow <- filter(patient_flow,patient_flow$state_names != "state_B")
+
+ggplot(patient_flow, aes(x = markov_cycle, y = count, colour = `.strategy_names`)) + 
+  geom_line(aes(linetype = state_names)) + 
+  theme_classic() +
+  theme(legend.position = "bottom") + 
+  scale_x_continuous(expand = c(0,0)) + 
+  scale_y_continuous(expand = c(0,0))
+
+```
+
+Or alternatively, a standard markov trace can be produced:
+```{r}
+plot(MODEL) + 
+  theme_classic() +
+  theme(legend.position = "bottom") + 
+  scale_x_continuous(expand = c(0,0)) + 
+  scale_y_continuous(expand = c(0,0))
+```
+
+
+
+general results:
+
+```{r model summary}
+summary(MODEL)
+```
+
