@@ -1,11 +1,11 @@
 ---
-title: "An introduction to heemod, a simple 3-state model"
+title: "An introduction to heemod, a simple 3-state model. Session 1"
 output:
-  pdf_document: 
-  html_document:
-    df_print: paged
   word_document:
     reference_docx: TEMPLATE.docx
+  html_document:
+    df_print: paged
+  pdf_document: 
 fontsize: "10pt"
 geometry: "left=0.5in,right=0.5in"
 ---
